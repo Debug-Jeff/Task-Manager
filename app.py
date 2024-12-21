@@ -1,16 +1,19 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key-here'  # Change this to a secure secret key
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
-
 
 # Database Models
 class User(UserMixin, db.Model):
@@ -19,14 +22,13 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(120), nullable=False)
     tasks = db.relationship('Task', backref='user', lazy=True)
 
-
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     due_date = db.Column(db.DateTime)
     completed = db.Column(db.Boolean, default=False)
-    priority = db.Column(db.Integer, default=2)  # 1: High, 2: Medium, 3: Low
+    priority = db.Column(db.Integer, default=2) 
     category = db.Column(db.String(50))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
