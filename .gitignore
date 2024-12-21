@@ -1,6 +1,5 @@
 # Virtual environment
 venv/
-.venv/
 
 # Python cache files
 __pycache__/
@@ -10,28 +9,8 @@ __pycache__/
 # Environment variables
 .env
 
-# Flask instance folder
-instance/
-
-# Database
-*.sqlite3
-
-# Pytest cache
-.pytest_cache/
-
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# VS Code settings
-.vscode/
-
-# Logs
-*.log
-
-
 # IntelliJ project files
 .idea
-*.iml
 out
 gen
 
